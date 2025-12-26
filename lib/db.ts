@@ -39,8 +39,8 @@ export async function query(sql: string, params?: any[]) {
 
   try {
     if (typeof client === "function") {
-      // Neon client
-      return await client(sql, params)
+      const result = await client(sql, params)
+      return result
     } else {
       // pg Pool client
       const result = await client.query(sql, params)
@@ -50,4 +50,19 @@ export async function query(sql: string, params?: any[]) {
     console.error("[v0] Database query error:", error)
     throw error
   }
+}
+
+export async function insertEvent(event: any) {
+  const sql = `
+    INSERT INTO analytics_events (event_type, game_id, player, metadata, timestamp)
+    VALUES ($1, $2, $3, $4, $5)
+  `
+  const params = [
+    event.type,
+    event.gameId || null,
+    event.player || event.winner || null,
+    JSON.stringify(event),
+    event.timestamp || new Date().toISOString(),
+  ]
+  return query(sql, params)
 }

@@ -11,7 +11,13 @@ export async function POST(request: NextRequest) {
       INSERT INTO analytics_events (event_type, game_id, player, metadata, timestamp)
       VALUES ($1, $2, $3, $4, $5)
     `,
-      [event.type, event.gameId || null, event.player || null, JSON.stringify(event), event.timestamp],
+      [
+        event.type,
+        event.gameId || null,
+        event.player || null,
+        JSON.stringify(event),
+        event.timestamp ? new Date(event.timestamp) : new Date(),
+      ],
     )
 
     return NextResponse.json({ success: true })

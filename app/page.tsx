@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { GameBoard } from "@/components/game-board"
 import { Leaderboard } from "@/components/leaderboard"
+import { AnalyticsDashboard } from "@/components/analytics-dashboard"
 import { Users, Bot, Zap } from "lucide-react"
 
 type GameState = "lobby" | "waiting" | "playing" | "finished"
@@ -259,8 +260,9 @@ export default function Home() {
           </div>
 
           {/* Leaderboard Sidebar */}
-          <div>
+          <div className="space-y-8">
             <Leaderboard />
+            <AnalyticsDashboard />
           </div>
         </div>
       </div>
